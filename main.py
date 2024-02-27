@@ -14,7 +14,7 @@ SCREEN_SIZE = Vector2(1200, 800)
 pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE)
 pygame.display.set_caption("")
-
+font = pygame.font.SysFont('Comic Sans MS', 30)
 
 # definitions:
 def main():
@@ -72,11 +72,16 @@ def main():
             bVx *= -1
         if bx >= xpos and by+9 >= ypos and bx <= xpos+100 and by <= ypos+20:
             bVy *= -1
-        if by + 20 > 1200:
+        if by + 20 > 800:
             lives -= 1
-            bx = xpos+50
-            by = ypos-50
             bVy *= -1
+            
+            
+            if lives >= 1:
+                pressed_space = False
+            else:
+                
+                running = False
 
 
         if xpos < 0:
@@ -99,6 +104,16 @@ def main():
         screen.fill("#000000")
         for i in range (len(bricks)):
             bricks[i].draw(screen)
+
+        score_text = font.render("Score:", False, (255, 100, 0))
+        screen.blit(score_text, (50, 10))
+        score_num = font.render(str(score), False, (255, 0, 0))
+        screen.blit(score_num, (150, 10))
+
+        lives_text = font.render("Lives:", False, (100, 255, 0))
+        screen.blit(lives_text, (50, 720))
+        lives_num = font.render(str(lives), False, (99, 242, 160))
+        screen.blit(lives_num, (150, 720))
 
         pygame.draw.rect(screen, (255,255,255), (xpos, ypos, 100, 20), 1)
         pygame.draw.circle(screen, (255,255,255), (bx, by), 10)
